@@ -1,0 +1,520 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>EchoVerse Audio — About</title>
+  <meta name="description" content="About EchoVerse Audio — purpose, scope, and internal-first release approach." />
+
+  <style>
+    :root{
+      --bg:#07070a;
+      --panel:rgba(255,255,255,.06);
+      --panel2:rgba(255,255,255,.035);
+      --line:rgba(255,255,255,.10);
+      --txt:rgba(255,255,255,.92);
+      --mut:rgba(255,255,255,.64);
+      --mut2:rgba(255,255,255,.46);
+      --good:rgba(52,211,153,1);
+      --warn:rgba(251,191,36,1);
+      --bad:rgba(248,113,113,1);
+      --r:22px;
+      --r2:16px;
+      --shadow: 0 28px 110px rgba(0,0,0,.60);
+      --grad: linear-gradient(90deg, #e879f9 0%, #38bdf8 55%, #34d399 100%);
+      --grad2: linear-gradient(135deg, rgba(232,121,249,.22), rgba(56,189,248,.18), rgba(52,211,153,.18));
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family: var(--sans);
+      color: var(--txt);
+      background:
+        radial-gradient(900px 520px at 12% 6%, rgba(56,189,248,.16), transparent 58%),
+        radial-gradient(860px 520px at 72% 2%, rgba(232,121,249,.14), transparent 55%),
+        radial-gradient(960px 640px at 72% 92%, rgba(52,211,153,.14), transparent 62%),
+        var(--bg);
+      overflow-x:hidden;
+    }
+    a{color:inherit;text-decoration:none}
+    .wrap{max-width:1120px;margin:0 auto;padding:0 18px}
+
+    /* Topbar */
+    .topbar{
+      position:sticky;top:0;z-index:50;
+      background: rgba(7,7,10,.68);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--line);
+    }
+    .toprow{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 0;flex-wrap:wrap}
+    .brand{display:flex;align-items:center;gap:12px;min-width:240px}
+    .logo{
+      width:40px;height:40px;border-radius:16px;
+      background: linear-gradient(135deg, #e879f9, #38bdf8, #34d399);
+      box-shadow: 0 0 0 1px rgba(255,255,255,.14) inset, 0 20px 70px rgba(56,189,248,.12);
+      position:relative;
+    }
+    .bt1{font-weight:950;letter-spacing:-.2px;line-height:1.05}
+    .bt2{font-size:12px;color:var(--mut2);margin-top:2px}
+    .nav{display:flex;flex-wrap:wrap;gap:10px;justify-content:flex-end}
+    .nav a{
+      font-size:13px;color:rgba(255,255,255,.84);
+      padding:8px 10px;border-radius:14px;
+      border:1px solid transparent;
+      background: transparent;
+    }
+    .nav a:hover{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.12);color:#fff}
+    .nav a.active{background:rgba(255,255,255,.09);border-color:rgba(255,255,255,.14);color:#fff}
+
+    .chip{
+      display:inline-flex;align-items:center;gap:8px;
+      padding:6px 10px;border-radius:999px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.06);
+      font-size:12px;color:rgba(255,255,255,.82);
+      white-space:nowrap;
+    }
+    .dot{width:8px;height:8px;border-radius:50%}
+    .dot.good{background:var(--good)}
+    .dot.warn{background:var(--warn)}
+    .dot.off{background:rgba(255,255,255,.20)}
+
+    /* Layout blocks */
+    .hero{padding:28px 0 14px}
+    h1{
+      margin:0;
+      font-size:36px;
+      line-height:1.08;
+      font-weight:950;
+      letter-spacing:-.6px;
+    }
+    .gradtxt{
+      background: var(--grad);
+      -webkit-background-clip:text;background-clip:text;
+      color:transparent;
+      display:inline-block;
+    }
+    .sub{
+      margin-top:10px;
+      color: var(--mut);
+      line-height: 1.6;
+      font-size: 14px;
+      max-width: 92ch;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 12px;
+      margin-top: 14px;
+      align-items: start;
+    }
+    @media (max-width: 920px){ .grid{grid-template-columns:1fr} }
+
+    .card{
+      border:1px solid var(--line);
+      background: var(--panel);
+      border-radius: var(--r);
+      box-shadow: var(--shadow);
+      position:relative;
+      overflow:hidden;
+    }
+    .card::before{
+      content:"";
+      position:absolute;inset:-2px;
+      background: var(--grad2);
+      opacity:.45;
+      pointer-events:none;
+      filter: blur(18px);
+      transform: translateY(-22px);
+    }
+    .inner{position:relative;padding:16px}
+
+    .st{margin:0;font-size:18px;font-weight:950;letter-spacing:-.2px}
+    .p{margin:10px 0 0;color:var(--mut);font-size:14px;line-height:1.65}
+    .ul{margin:10px 0 0;padding-left:18px;color:rgba(255,255,255,.76);line-height:1.65;font-size:14px}
+    .ul li{margin:6px 0}
+    .code{
+      margin-top: 12px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.22);
+      padding: 12px;
+      font-family: var(--mono);
+      font-size: 12px;
+      color: rgba(255,255,255,.82);
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .tiles{
+      display:grid;
+      grid-template-columns: repeat(2,1fr);
+      gap: 12px;
+      margin-top: 12px;
+    }
+    @media (max-width: 920px){ .tiles{grid-template-columns:1fr} }
+    .tile{
+      border:1px solid var(--line);
+      background: rgba(0,0,0,.18);
+      border-radius: var(--r2);
+      padding: 14px;
+      transition: transform .12s ease, background .12s ease, border-color .12s ease;
+    }
+    .tile:hover{transform:translateY(-1px);background:rgba(0,0,0,.24);border-color:rgba(255,255,255,.14)}
+    .tt{font-weight:950;font-size:13px}
+    .td{margin-top:6px;color:var(--mut2);font-size:13px;line-height:1.45}
+    .tagrow{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+    .tag{
+      display:inline-flex;align-items:center;gap:8px;
+      padding:6px 10px;border-radius:999px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.06);
+      font-size:12px;color:rgba(255,255,255,.78);
+      white-space:nowrap;
+    }
+
+    .btnrow{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
+    .btn{
+      display:inline-flex;align-items:center;justify-content:center;gap:10px;
+      padding:11px 13px;border-radius:16px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      font-size:13px;font-weight:950;
+      color: rgba(255,255,255,.88);
+      user-select:none;
+    }
+    .btn:hover{background:rgba(255,255,255,.10);color:#fff}
+    .btn.primary{
+      background: rgba(255,255,255,.92);
+      color:#09090b;border-color:transparent;
+    }
+    .btn.primary:hover{background:rgba(255,255,255,.86)}
+    .btn.ghost{background:transparent}
+
+    footer{
+      border-top:1px solid var(--line);
+      margin-top: 18px;
+      padding: 16px 0 22px;
+      color: var(--mut2);
+      font-size:12px;
+    }
+    .foot{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center}
+
+    /* No Access Modal */
+    .overlay{
+      position:fixed;inset:0;
+      background: rgba(0,0,0,.66);
+      display:none;align-items:center;justify-content:center;
+      padding: 18px;
+      z-index: 999;
+    }
+    .overlay.show{display:flex}
+    .modal{
+      width:min(560px, 100%);
+      border-radius: 22px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(10,10,13,.88);
+      box-shadow: 0 40px 160px rgba(0,0,0,.70);
+      backdrop-filter: blur(12px);
+      overflow:hidden;
+    }
+    .mTop{
+      padding: 14px 16px;
+      border-bottom: 1px solid rgba(255,255,255,.10);
+      display:flex;align-items:center;justify-content:space-between;gap:12px;
+    }
+    .mTitle{font-weight:950;letter-spacing:-.2px}
+    .mClose{
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      color: rgba(255,255,255,.88);
+      padding: 8px 10px;border-radius: 14px;
+      font-weight: 950;font-size: 12px;
+      cursor:pointer;
+    }
+    .mClose:hover{background:rgba(255,255,255,.10)}
+    .mBody{padding: 16px}
+    .mP{margin:8px 0 0;color:var(--mut);line-height:1.55;font-size:14px}
+    .mBox{
+      margin-top: 12px;
+      padding: 12px 12px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.04);
+      font-family: var(--mono);
+      font-size: 12px;
+      color: rgba(255,255,255,.78);
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+    .mBtns{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}
+    .mBtn{
+      padding:10px 12px;border-radius:16px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      font-weight: 950;font-size: 13px;
+      cursor:pointer;
+      color: rgba(255,255,255,.90);
+    }
+    .mBtn:hover{background:rgba(255,255,255,.10)}
+    .toast{
+      position:fixed;left:50%;bottom:18px;transform:translateX(-50%);
+      padding:10px 12px;border-radius:16px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.72);
+      color: rgba(255,255,255,.90);
+      font-size: 12px;
+      opacity:0;pointer-events:none;
+      transition: opacity .15s ease;
+      max-width: 92vw;
+      z-index: 1000;
+    }
+    .toast.show{opacity:1}
+  </style>
+</head>
+
+<body>
+  <header class="topbar">
+    <div class="wrap">
+      <div class="toprow">
+        <div class="brand">
+          <div class="logo" aria-hidden="true"></div>
+          <div>
+            <div class="bt1">EchoVerse Audio</div>
+            <div class="bt2">About • internal staging</div>
+          </div>
+        </div>
+
+        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:flex-end;">
+          <span class="chip" title="This site is currently mapped to port 5301">
+            <span class="dot good"></span> homepage :5301
+          </span>
+          <span class="chip" title="EchoVerse UI (wire when ready)">
+            <span class="dot warn"></span> ui :5303
+          </span>
+          <span class="chip" title="Catalog service (wire when ready)">
+            <span class="dot warn"></span> catalog :5302
+          </span>
+          <span class="chip" title="Library service (wire when ready)">
+            <span class="dot warn"></span> library :5304
+          </span>
+        </div>
+      </div>
+
+      <div class="toprow" style="padding-top:0;">
+        <nav class="nav" aria-label="site">
+          <a href="index.html">Home</a>
+          <a href="listen.html">Listen</a>
+          <a href="downloads.html">Downloads</a>
+          <a href="tools.html">Tools</a>
+          <a href="projects.html">Projects</a>
+          <a href="about.html" class="active">About</a>
+          <a href="thank-you.html">Thank You</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="hero">
+      <h1>About <span class="gradtxt">EchoVerse Audio</span></h1>
+      <p class="sub">
+        EchoVerse Audio is the internal-first hub for releases, samples, tools, and “truth layers” (logs, transcripts, inserts).
+        This page defines the purpose, scope, and how we decide what becomes public.
+      </p>
+    </section>
+
+    <section class="grid">
+      <!-- Left: Mission / Definition -->
+      <div class="card">
+        <div class="inner">
+          <h2 class="st">What it is</h2>
+          <p class="p">
+            EchoVerse Audio is a staging-friendly experience layer: a place to browse and present audio work,
+            manage downloadable packs, and keep the metadata story intact — before any “public” pressure exists.
+          </p>
+
+          <div class="tiles">
+            <div class="tile">
+              <div class="tt">Experience Layer</div>
+              <div class="td">A clean front door for discovery and navigation across EchoVerse systems.</div>
+              <div class="tagrow">
+                <span class="tag">UI-first</span>
+                <span class="tag">mockable</span>
+              </div>
+            </div>
+            <div class="tile">
+              <div class="tt">Truth Layer</div>
+              <div class="td">Transcripts, logs, inserts, and metadata consistency — the archive doesn’t lie.</div>
+              <div class="tagrow">
+                <span class="tag">searchable</span>
+                <span class="tag">repeatable</span>
+              </div>
+            </div>
+          </div>
+
+          <h2 class="st" style="margin-top:14px;">What it is not</h2>
+          <ul class="ul">
+            <li>Not the final public marketing site (yet).</li>
+            <li>Not tightly coupled to a single backend — wiring is intentionally flexible.</li>
+            <li>Not a place where broken links are acceptable (everything blocks cleanly).</li>
+          </ul>
+
+          <div class="btnrow">
+            <a class="btn primary" href="projects.html">See Current Projects</a>
+            <a class="btn" href="downloads.html">Go to Downloads</a>
+            <a class="btn ghost" href="#" data-block="Contact route is not wired yet" data-target="contact:stub">Contact</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Release approach / wiring plan -->
+      <div class="card">
+        <div class="inner">
+          <h2 class="st">Internal-first approach</h2>
+          <p class="p">
+            We build the experience internally to prove: navigation, structure, and integrity.
+            Once it feels right, we wire it to internal endpoints (UI/Catalog/Library) and only then consider a public release.
+          </p>
+
+          <div class="tile" style="margin-top:12px;">
+            <div class="tt">Port Band Convention</div>
+            <div class="td">Keep related services grouped for clarity and muscle memory:</div>
+            <div class="code">homepage :5301
+catalog   :5302
+ui        :5303
+library   :5304</div>
+          </div>
+
+          <div class="tile" style="margin-top:12px;">
+            <div class="tt">Wiring Rules</div>
+            <div class="td">Anything not connected must be blocked with a modal — no broken navigation.</div>
+            <div class="tagrow">
+              <span class="tag">no dead clicks</span>
+              <span class="tag">safe staging</span>
+              <span class="tag">ready to promote</span>
+            </div>
+          </div>
+
+          <div class="tile" style="margin-top:12px;">
+            <div class="tt">Public Release Trigger</div>
+            <div class="td">Only when content + experience are stable: then Firebase/GitHub Pages/etc.</div>
+            <div class="tagrow">
+              <span class="tag">stable nav</span>
+              <span class="tag">stable links</span>
+              <span class="tag">stable story</span>
+            </div>
+          </div>
+
+          <div class="btnrow">
+            <a class="btn" href="thank-you.html">Partner Credits</a>
+            <a class="btn ghost" href="#" data-block="Deep-linking plan not wired on this page yet" data-target="deeplinks:stub">Deep Links Plan</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="foot">
+        <div>© <span id="y"></span> EchoVerse Audio • about</div>
+        <div style="display:flex;gap:12px;flex-wrap:wrap">
+          <a href="index.html" style="color:rgba(255,255,255,.72)">Home</a>
+          <a href="projects.html" style="color:rgba(255,255,255,.72)">Projects</a>
+          <a href="thank-you.html" style="color:rgba(255,255,255,.72)">Thank You</a>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+  <!-- No Access Modal -->
+  <div class="overlay" id="overlay" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="mTitle">
+      <div class="mTop">
+        <div class="mTitle" id="mTitle">No Access</div>
+        <button class="mClose" id="mClose" type="button">Close</button>
+      </div>
+      <div class="mBody">
+        <div class="mP" id="mMsg">This destination isn’t connected yet.</div>
+        <div class="mBox" id="mBox">target: unknown</div>
+        <div class="mBtns">
+          <button class="mBtn" id="mCopy" type="button">Copy Target</button>
+          <button class="mBtn" id="mOk" type="button">OK</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast">Copied.</div>
+
+  <script>
+    document.getElementById("y").textContent = String(new Date().getFullYear());
+
+    const overlay = document.getElementById("overlay");
+    const mClose = document.getElementById("mClose");
+    const mOk = document.getElementById("mOk");
+    const mMsg = document.getElementById("mMsg");
+    const mBox = document.getElementById("mBox");
+    const mCopy = document.getElementById("mCopy");
+    const toast = document.getElementById("toast");
+
+    let lastTarget = "";
+
+    function showToast(msg){
+      toast.textContent = msg;
+      toast.classList.add("show");
+      clearTimeout(showToast._t);
+      showToast._t = setTimeout(() => toast.classList.remove("show"), 1100);
+    }
+
+    function openModal(message, target){
+      lastTarget = target || "unknown";
+      mMsg.textContent = message || "This destination isn’t connected yet.";
+      mBox.textContent = "target: " + lastTarget;
+      overlay.classList.add("show");
+      overlay.setAttribute("aria-hidden", "false");
+      mClose.focus();
+    }
+
+    function closeModal(){
+      overlay.classList.remove("show");
+      overlay.setAttribute("aria-hidden", "true");
+    }
+
+    mClose.addEventListener("click", closeModal);
+    mOk.addEventListener("click", closeModal);
+    overlay.addEventListener("click", (e) => { if(e.target === overlay) closeModal(); });
+    window.addEventListener("keydown", (e) => { if(e.key === "Escape") closeModal(); });
+
+    mCopy.addEventListener("click", async () => {
+      try{
+        await navigator.clipboard.writeText(lastTarget);
+        showToast("Copied target to clipboard.");
+      }catch{
+        showToast("Copy blocked by browser.");
+      }
+    });
+
+    // Block any link that is not a local .html page
+    document.addEventListener("click", (e) => {
+      const a = e.target.closest("a");
+      if(!a) return;
+
+      const href = a.getAttribute("href") || "";
+      const isLocalPage = href.endsWith(".html");
+      const blockedMsg = a.dataset.block || "";
+
+      const shouldBlock = (!isLocalPage && (href === "#" || blockedMsg));
+
+      if(shouldBlock){
+        e.preventDefault();
+        openModal(blockedMsg || "Not connected yet (mock link).", a.dataset.target || href || "unknown");
+      }
+    });
+  </script>
+</body>
+</html>

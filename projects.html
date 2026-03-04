@@ -1,0 +1,611 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>EchoVerse — Projects</title>
+  <meta name="description" content="EchoVerse roadmap: now/next/later, definition of done, and wiring milestones." />
+
+  <style>
+    :root{
+      --bg:#07070a;
+      --panel:rgba(255,255,255,.06);
+      --panel2:rgba(255,255,255,.035);
+      --line:rgba(255,255,255,.10);
+      --txt:rgba(255,255,255,.92);
+      --mut:rgba(255,255,255,.64);
+      --mut2:rgba(255,255,255,.46);
+      --good:rgba(52,211,153,1);
+      --warn:rgba(251,191,36,1);
+      --r:22px; --r2:16px;
+      --shadow: 0 28px 110px rgba(0,0,0,.60);
+      --grad: linear-gradient(90deg, #e879f9 0%, #38bdf8 55%, #34d399 100%);
+      --grad2: linear-gradient(135deg, rgba(232,121,249,.22), rgba(56,189,248,.18), rgba(52,211,153,.18));
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: var(--sans);
+      color: var(--txt);
+      background:
+        radial-gradient(900px 520px at 12% 6%, rgba(56,189,248,.16), transparent 58%),
+        radial-gradient(860px 520px at 72% 2%, rgba(232,121,249,.14), transparent 55%),
+        radial-gradient(960px 640px at 72% 92%, rgba(52,211,153,.14), transparent 62%),
+        var(--bg);
+      overflow-x:hidden;
+      opacity:0;
+      animation: fadeIn 0.4s ease-out 0.1s forwards;
+    }
+    @keyframes fadeIn{
+      from{opacity:0}
+      to{opacity:1}
+    }
+    a{color:inherit;text-decoration:none}
+    .wrap{max-width:1120px;margin:0 auto;padding:0 18px}
+
+    .topbar{
+      position:sticky;top:0;z-index:50;
+      background: rgba(7,7,10,.70);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--line);
+      animation: slideDown 0.4s ease-out;
+    }
+    @keyframes slideDown{
+      from{transform:translateY(-100%);opacity:0}
+      to{transform:translateY(0);opacity:1}
+    }
+    .toprow{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 0;flex-wrap:wrap}
+    .brand{display:flex;align-items:center;gap:12px;min-width:240px}
+    .logo{
+      width:40px;height:40px;border-radius:16px;
+      background: linear-gradient(135deg, #e879f9, #38bdf8, #34d399);
+      box-shadow: 0 0 0 1px rgba(255,255,255,.14) inset, 0 20px 70px rgba(56,189,248,.12);
+      position:relative;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+    .logo-icon{
+      position:absolute;
+      width:28px;
+      height:28px;
+      opacity:0.75;
+      z-index:1;
+    }
+    .bt1{font-weight:950;letter-spacing:-.2px;line-height:1.05}
+    .bt2{font-size:12px;color:var(--mut2);margin-top:2px}
+    .nav{display:flex;flex-wrap:wrap;gap:10px;justify-content:flex-end}
+    .nav a{
+      font-size:13px;color:rgba(255,255,255,.84);
+      padding:8px 10px;border-radius:14px;
+      border:1px solid transparent;
+    }
+    .nav a:hover{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.12);color:#fff}
+    .nav a.active{background:rgba(255,255,255,.09);border-color:rgba(255,255,255,.14);color:#fff}
+    .nav a:focus-visible,.btn:focus-visible{
+      outline:2px solid rgba(56,189,248,.6);
+      outline-offset:2px;
+      border-radius:14px;
+    }
+
+    .chip{
+      display:inline-flex;align-items:center;gap:8px;
+      padding:6px 10px;border-radius:999px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.06);
+      font-size:12px;color:rgba(255,255,255,.82);
+      white-space:nowrap;
+    }
+    .dot{width:8px;height:8px;border-radius:50%}
+    .dot.good{background:var(--good)}
+    .dot.warn{background:var(--warn)}
+
+    .hero{padding:28px 0 12px}
+    h1{
+      margin:0;
+      font-size:38px;
+      line-height:1.08;
+      font-weight:950;
+      letter-spacing:-.7px;
+      animation: fadeInScale 0.5s ease-out 0.2s both;
+    }
+    @keyframes fadeInScale{
+      from{opacity:0;transform:scale(0.96)}
+      to{opacity:1;transform:scale(1)}
+    }
+    .gradtxt{
+      background:var(--grad);
+      -webkit-background-clip:text;
+      background-clip:text;
+      color:transparent;
+      display:inline-block;
+    }
+    .sub{
+      margin-top:10px;
+      color:var(--mut);
+      line-height:1.65;
+      font-size:14px;
+      max-width:96ch;
+      animation: fadeIn 0.5s ease-out 0.3s both;
+    }
+    .tagrow{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+    .tag{
+      display:inline-flex;align-items:center;gap:8px;
+      padding:6px 10px;border-radius:999px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.06);
+      font-size:12px;color:rgba(255,255,255,.78);
+      white-space:nowrap;
+    }
+
+    .card{
+      border:1px solid var(--line);
+      background: var(--panel);
+      border-radius: var(--r);
+      box-shadow: var(--shadow);
+      position:relative;
+      overflow:hidden;
+      margin-top: 12px;
+      transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+      opacity:0;
+      transform:translateY(20px);
+      animation: slideUpFade 0.6s ease-out forwards;
+    }
+    .card:nth-of-type(1){animation-delay:0.15s}
+    .card:nth-of-type(2){animation-delay:0.25s}
+    .card::before{
+      content:"";
+      position:absolute;inset:-2px;
+      background: var(--grad2);
+      opacity:.35;
+      pointer-events:none;
+      filter: blur(18px);
+      transform: translateY(-22px);
+      transition: opacity 0.3s ease;
+    }
+    .card:hover{
+      transform:translateY(-2px);
+      border-color:rgba(255,255,255,.14);
+    }
+    .card:hover::before{
+      opacity:.5;
+    }
+    .inner{position:relative;padding:16px}
+
+    .st{margin:0;font-size:18px;font-weight:950;letter-spacing:-.2px}
+    .p{margin:10px 0 0;color:var(--mut);font-size:14px;line-height:1.75}
+
+    .board{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 12px;
+    }
+    @media (max-width: 920px){ .board{grid-template-columns:1fr} }
+
+    .col{
+      border:1px solid var(--line);
+      background: rgba(0,0,0,.18);
+      border-radius: var(--r2);
+      padding: 12px;
+      transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+      opacity:0;
+      transform:translateY(20px);
+      animation: slideUpFade 0.6s ease-out forwards;
+    }
+    .col:nth-child(1){animation-delay:0.15s}
+    .col:nth-child(2){animation-delay:0.25s}
+    .col:nth-child(3){animation-delay:0.35s}
+    @keyframes slideUpFade{
+      from{opacity:0;transform:translateY(20px)}
+      to{opacity:1;transform:translateY(0)}
+    }
+    .col:hover{
+      transform:translateY(-2px);
+      background:rgba(0,0,0,.24);
+      border-color:rgba(255,255,255,.14);
+      box-shadow:0 8px 24px rgba(0,0,0,.3);
+    }
+    .col h3{
+      margin:0;
+      font-size: 13px;
+      font-weight: 950;
+      letter-spacing: -.1px;
+      display:flex;align-items:center;justify-content:space-between;gap:10px;
+    }
+    .pill{
+      font-size: 11px;
+      font-weight: 950;
+      padding: 5px 9px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.06);
+      color: rgba(255,255,255,.82);
+      white-space:nowrap;
+    }
+
+    .item{
+      margin-top:10px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.04);
+      border-radius: 14px;
+      padding: 10px 10px;
+    }
+    .itT{font-weight:950;font-size:13px}
+    .itD{margin-top:6px;color:rgba(255,255,255,.62);font-size:12.5px;line-height:1.55}
+    .itTags{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+    .itTag{
+      font-size: 11px;
+      font-weight: 900;
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.18);
+      color: rgba(255,255,255,.78);
+    }
+
+    .grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:12px}
+    @media (max-width: 920px){ .grid2{grid-template-columns:1fr} }
+
+    .code{
+      margin-top: 12px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.22);
+      padding: 12px;
+      font-family: var(--mono);
+      font-size: 12px;
+      color: rgba(255,255,255,.82);
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .btnrow{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
+    .btn{
+      display:inline-flex;align-items:center;justify-content:center;gap:10px;
+      padding:11px 13px;border-radius:16px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      font-size:13px;font-weight:950;
+      color: rgba(255,255,255,.88);
+      user-select:none;
+      transition: all 0.2s ease;
+      transform:translateY(0);
+    }
+    .btn:hover{
+      background:rgba(255,255,255,.10);
+      color:#fff;
+      transform:translateY(-1px);
+      box-shadow:0 4px 12px rgba(0,0,0,.2);
+    }
+    .btn.primary{
+      background: rgba(255,255,255,.92);
+      color:#09090b;
+      border-color:transparent;
+    }
+    .btn.primary:hover{
+      background:rgba(255,255,255,.86);
+      transform:translateY(-2px);
+      box-shadow:0 6px 16px rgba(255,255,255,.15);
+    }
+    .btn.primary{background: rgba(255,255,255,.92); color:#09090b;border-color:transparent;}
+    .btn.primary:hover{background:rgba(255,255,255,.86)}
+    .btn.small{padding:10px 12px;border-radius:14px;font-size:13px}
+
+    footer{
+      border-top:1px solid var(--line);
+      margin-top: 18px;
+      padding: 16px 0 22px;
+      color: var(--mut2);
+      font-size:12px;
+    }
+    .foot{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center}
+
+    /* Modal */
+    .overlay{position:fixed;inset:0;background: rgba(0,0,0,.66);display:none;align-items:center;justify-content:center;padding: 18px;z-index: 999;}
+    .overlay.show{display:flex}
+    .modal{width:min(560px, 100%);border-radius: 22px;border: 1px solid rgba(255,255,255,.14);background: rgba(10,10,13,.88);box-shadow: 0 40px 160px rgba(0,0,0,.70);backdrop-filter: blur(12px);overflow:hidden;}
+    .mTop{padding: 14px 16px;border-bottom: 1px solid rgba(255,255,255,.10);display:flex;align-items:center;justify-content:space-between;gap:12px;}
+    .mTitle{font-weight:950;letter-spacing:-.2px}
+    .mClose{border:1px solid rgba(255,255,255,.14);background: rgba(255,255,255,.06);color: rgba(255,255,255,.88);padding: 8px 10px;border-radius: 14px;font-weight: 950;font-size: 12px;cursor:pointer;}
+    .mClose:hover{background:rgba(255,255,255,.10)}
+    .mBody{padding: 16px}
+    .mP{margin:8px 0 0;color:var(--mut);line-height:1.55;font-size:14px}
+    .mBox{margin-top: 12px;padding: 12px 12px;border-radius: 16px;border: 1px solid rgba(255,255,255,.10);background: rgba(255,255,255,.04);font-family: var(--mono);font-size: 12px;color: rgba(255,255,255,.78);white-space: pre-wrap;word-break: break-word;}
+    .mBtns{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}
+    .mBtn{padding:10px 12px;border-radius:16px;border:1px solid rgba(255,255,255,.14);background: rgba(255,255,255,.06);font-weight: 950;font-size: 13px;cursor:pointer;color: rgba(255,255,255,.90);}
+    .mBtn:hover{background:rgba(255,255,255,.10)}
+    .toast{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);padding:10px 12px;border-radius:16px;border:1px solid rgba(255,255,255,.14);background: rgba(0,0,0,.72);color: rgba(255,255,255,.90);font-size: 12px;opacity:0;pointer-events:none;transition: opacity .15s ease;max-width: 92vw;z-index: 1000;}
+    .toast.show{opacity:1}
+  </style>
+</head>
+
+<body>
+  <header class="topbar">
+    <div class="wrap">
+      <div class="toprow">
+        <div class="brand">
+          <div class="logo" aria-hidden="true">
+            <img src="assets/icon-projects.svg" alt="" class="logo-icon">
+          </div>
+          <div>
+            <div class="bt1">EchoVerse</div>
+            <div class="bt2">projects • roadmap</div>
+          </div>
+        </div>
+
+        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:flex-end;">
+          <span class="chip"><span class="dot good"></span> homepage :5301</span>
+          <span class="chip"><span class="dot warn"></span> ui :5303</span>
+          <span class="chip"><span class="dot warn"></span> catalog :5302</span>
+          <span class="chip"><span class="dot warn"></span> library :5304</span>
+        </div>
+      </div>
+
+      <div class="toprow" style="padding-top:0;">
+        <nav class="nav" aria-label="site">
+          <a href="index.html">Home</a>
+          <a href="listen.html">Listen</a>
+          <a href="downloads.html">Downloads</a>
+          <a href="tools.html">Tools</a>
+          <a href="projects.html" class="active">Projects</a>
+          <a href="about.html">About</a>
+          <a href="thank-you.html">Thank You</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="hero">
+      <h1>EchoVerse <span class="gradtxt">Projects</span></h1>
+      <p class="sub">
+        This is the internal roadmap: what we’re building now, what gets wired next, and what becomes public later.
+        The goal is a stable experience: clean navigation, clean links, and catalog integrity.
+      </p>
+      <div class="tagrow">
+        <span class="tag">now / next / later</span>
+        <span class="tag">definition of done</span>
+        <span class="tag">wiring milestones</span>
+        <span class="tag">integrity</span>
+      </div>
+    </section>
+
+    <div class="card">
+      <div class="inner">
+        <h2 class="st">Roadmap Board</h2>
+        <p class="p">This is intentionally “operator readable.” If it can’t be explained here, it’s not ready to ship.</p>
+
+        <div class="board">
+          <div class="col">
+            <h3>Now <span class="pill">active</span></h3>
+
+            <div class="item">
+              <div class="itT">Homepage UX (static staging)</div>
+              <div class="itD">Pages, nav, blocking modal, visual identity.</div>
+              <div class="itTags">
+                <span class="itTag">:5301</span><span class="itTag">no-dead-links</span>
+              </div>
+            </div>
+
+            <div class="item">
+              <div class="itT">Download Vault UX</div>
+              <div class="itD">Define packs/stems/bundles layout and copy paths.</div>
+              <div class="itTags">
+                <span class="itTag">bundles</span><span class="itTag">vault</span>
+              </div>
+            </div>
+
+            <div class="item">
+              <div class="itT">Toolbox UX</div>
+              <div class="itD">Define which tools exist + distribution plan.</div>
+              <div class="itTags">
+                <span class="itTag">cli</span><span class="itTag">qa</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="col">
+            <h3>Next <span class="pill">wiring</span></h3>
+
+            <div class="item">
+              <div class="itT">Wire Listen → UI</div>
+              <div class="itD">Connect listen categories to your EchoVerse UI on :5303.</div>
+              <div class="itTags">
+                <span class="itTag">:5303</span><span class="itTag">routing</span>
+              </div>
+            </div>
+
+            <div class="item">
+              <div class="itT">Wire Downloads → Vault</div>
+              <div class="itD">Choose delivery: internal zip folder, share links, or HTTP endpoint.</div>
+              <div class="itTags">
+                <span class="itTag">links</span><span class="itTag">delivery</span>
+              </div>
+            </div>
+
+            <div class="item">
+              <div class="itT">Catalog Integrity Loop</div>
+              <div class="itD">Inventory snapshot + diff + missing art list.</div>
+              <div class="itTags">
+                <span class="itTag">:5302</span><span class="itTag">diff</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="col">
+            <h3>Later <span class="pill">public</span></h3>
+
+            <div class="item">
+              <div class="itT">Public Landing / Hosting</div>
+              <div class="itD">Firebase or equivalent after stability: no broken links, stable story.</div>
+              <div class="itTags">
+                <span class="itTag">release</span><span class="itTag">marketing</span>
+              </div>
+            </div>
+
+            <div class="item">
+              <div class="itT">Deep Links to Tracks</div>
+              <div class="itD">Stable links to specific track pages and bundles.</div>
+              <div class="itTags">
+                <span class="itTag">deeplink</span><span class="itTag">shareable</span>
+              </div>
+            </div>
+
+            <div class="item">
+              <div class="itT">Automation + Reports</div>
+              <div class="itD">Build nightly snapshots + HTML reports.</div>
+              <div class="itTags">
+                <span class="itTag">ops</span><span class="itTag">reporting</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="btnrow">
+          <button class="btn" id="copyDoD" type="button">Copy Definition of Done</button>
+          <a class="btn primary" href="downloads.html">Review Downloads</a>
+          <a class="btn" href="tools.html">Review Tools</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Divider Wave between Board and DoD -->
+    <img src="assets/divider-wave.svg" alt="" style="width:100%;height:auto;opacity:.9;margin:14px 0;">
+
+    <div class="grid2">
+      <div class="card">
+        <div class="inner">
+          <h2 class="st">Definition of Done</h2>
+          <p class="p">If these aren’t true, it stays internal. Simple rules, no excuses.</p>
+
+          <div class="code" id="dodText">EchoVerse Done Criteria
+- No dead clicks: all unwired links are blocked with modal
+- Consistent navigation across all pages
+- Vault layout defined (packs/stems/bundles) + copyable paths
+- Catalog snapshot plan exists (inventory + diff + missing art)
+- Tool distribution plan selected (zip / releases / containers)
+- Optional: deep-link scheme defined (track_id / bundle_id)</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="inner">
+          <h2 class="st">Wiring Milestones (Mock)</h2>
+          <p class="p">These are the three connections that change everything once enabled.</p>
+
+          <div class="code">Milestones
+1) Listen page wired to UI (:5303)
+2) Downloads wired to Vault delivery method
+3) Catalog integrity loop scheduled (inventory+diff)</div>
+
+          <div class="btnrow">
+            <a class="btn" href="#" data-block="Milestone checklist not wired yet" data-target="projects:milestones:checklist">Milestone Checklist</a>
+            <a class="btn ghost" href="#" data-block="Issue tracker not wired yet" data-target="projects:issues:stub">Issue Tracker</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <div class="foot">
+        <div>© <span id="y"></span> EchoVerse • projects</div>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center">
+          <a href="downloads.html" style="color:rgba(255,255,255,.72)">Downloads</a>
+          <a href="tools.html" style="color:rgba(255,255,255,.72)">Tools</a>
+          <a href="about.html" style="color:rgba(255,255,255,.72)">About</a>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+  <!-- No Access Modal -->
+  <div class="overlay" id="overlay" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true">
+      <div class="mTop">
+        <div class="mTitle">No Access</div>
+        <button class="mClose" id="mClose" type="button">Close</button>
+      </div>
+      <div class="mBody">
+        <div class="mP" id="mMsg">This destination isn’t connected yet.</div>
+        <div class="mBox" id="mBox">target: unknown</div>
+        <div class="mBtns">
+          <button class="mBtn" id="mCopy" type="button">Copy Target</button>
+          <button class="mBtn" id="mOk" type="button">OK</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast">Copied.</div>
+
+  <script>
+    document.getElementById("y").textContent = String(new Date().getFullYear());
+
+    // Copy DoD
+    document.getElementById("copyDoD").addEventListener("click", async () => {
+      const text = document.getElementById("dodText").textContent;
+      try { await navigator.clipboard.writeText(text); showToast("Definition of Done copied."); }
+      catch { showToast("Copy blocked by browser."); }
+    });
+
+    // Modal + blocking
+    const overlay = document.getElementById("overlay");
+    const mClose = document.getElementById("mClose");
+    const mOk = document.getElementById("mOk");
+    const mMsg = document.getElementById("mMsg");
+    const mBox = document.getElementById("mBox");
+    const mCopy = document.getElementById("mCopy");
+    const toast = document.getElementById("toast");
+    let lastTarget = "";
+
+    function showToast(msg){
+      toast.textContent = msg;
+      toast.classList.add("show");
+      clearTimeout(showToast._t);
+      showToast._t = setTimeout(() => toast.classList.remove("show"), 1100);
+    }
+
+    function openModal(message, target){
+      lastTarget = target || "unknown";
+      mMsg.textContent = message || "This destination isn’t connected yet.";
+      mBox.textContent = "target: " + lastTarget;
+      overlay.classList.add("show");
+      overlay.setAttribute("aria-hidden", "false");
+      mClose.focus();
+    }
+
+    function closeModal(){
+      overlay.classList.remove("show");
+      overlay.setAttribute("aria-hidden", "true");
+    }
+
+    mClose.addEventListener("click", closeModal);
+    mOk.addEventListener("click", closeModal);
+    overlay.addEventListener("click", (e) => { if(e.target === overlay) closeModal(); });
+    window.addEventListener("keydown", (e) => { if(e.key === "Escape") closeModal(); });
+
+    mCopy.addEventListener("click", async () => {
+      try{ await navigator.clipboard.writeText(lastTarget); showToast("Copied target to clipboard."); }
+      catch{ showToast("Copy blocked by browser."); }
+    });
+
+    document.addEventListener("click", (e) => {
+      const a = e.target.closest("a");
+      if(!a) return;
+
+      const href = a.getAttribute("href") || "";
+      const isLocalPage = href.endsWith(".html");
+      const blockedMsg = a.dataset.block || "";
+      const shouldBlock = (!isLocalPage && (href === "#" || blockedMsg));
+
+      if(shouldBlock){
+        e.preventDefault();
+        openModal(blockedMsg || "Not connected yet (mock link).", a.dataset.target || href || "unknown");
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+server {
+  listen 80;
+  server_name _;
+
+  root /usr/share/nginx/html;
+  index index.html;
+
+  # Health endpoint for Docker healthcheck + quick curl
+  location = /health {
+    add_header Content-Type text/plain;
+    return 200 "ok\n";
+  }
+
+  # Security headers (audit recommendation) :contentReference[oaicite:5]{index=5}
+  add_header X-Content-Type-Options "nosniff" always;
+  add_header X-Frame-Options "DENY" always;
+  add_header Referrer-Policy "no-referrer" always;
+  add_header Permissions-Policy "geolocation=(), microphone=(), camera=()" always;
+
+  # CSP (audit recommendation) — allows inline CSS/JS since your pages embed them :contentReference[oaicite:6]{index=6}
+  add_header Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'" always;
+
+  # Cache strategy:
+  # - HTML: no-cache (so updates show up immediately)
+  location ~* \.html$ {
+    add_header Cache-Control "no-store" always;
+    try_files $uri =404;
+  }
+
+  # - Static assets: cache longer (for later when you add assets/)
+  location ~* \.(css|js|png|jpg|jpeg|gif|svg|webp|ico|woff|woff2)$ {
+    expires 30d;
+    add_header Cache-Control "public, max-age=2592000, immutable" always;
+    try_files $uri =404;
+  }
+
+  # Default route
+  location / {
+    try_files $uri $uri/ =404;
+  }
+}

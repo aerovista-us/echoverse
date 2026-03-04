@@ -1,0 +1,35 @@
+services:
+  echovers-homepage:
+    container_name: echovers-homepage
+    build:
+      context: .
+      dockerfile: dockerfile
+    image: echovers-homepage:latest
+    restart: unless-stopped
+    ports:
+      - "5301:80"
+    environment:
+      - NGINX_HOST=_
+      - NGINX_PORT=80
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    networks:
+      - echovers-network
+    # Resource limits (optional but recommended)
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 128M
+        reservations:
+          cpus: '0.25'
+          memory: 64M
+
+networks:
+  echovers-network:
+    driver: bridge
+    name: echovers-network
